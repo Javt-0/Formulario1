@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm1
    ClientHeight    =   7512
    ClientLeft      =   108
    ClientTop       =   456
-   ClientWidth     =   12780
+   ClientWidth     =   7344
    OleObjectBlob   =   "Formulario.frx":0000
    StartUpPosition =   1  'Centrar en propietario
 End
@@ -24,6 +24,47 @@ Private Sub CommandButton1_Click()
     
 End Sub
 
+Private Sub CommandButton10_Click()
+    CommandButton11.Enabled = False
+    CommandButton9.Enabled = True
+    
+    Frame3.Visible = False
+    CommandButton1.Enabled = True
+    CommandButton2.Enabled = True
+    CommandButton4.Enabled = True
+    
+    TextBox10.Text = ""
+    TextBox11.Text = ""
+    TextBox12.Text = ""
+    TextBox13.Text = ""
+    TextBox14.Text = ""
+End Sub
+
+Private Sub CommandButton11_Click()
+    'Modificar datos'
+    'btn modificar'
+    Dim numfil As Integer
+    Dim opcion As Integer
+    opcion = MsgBox("¿Esta seguro que quiere modificar los datos?", vbYesNo, "Modificar usuario")
+    'MsgBox opcion'
+    
+    If opcion = 6 Then
+        CommandButton11.Enabled = False
+        CommandButton9.Enabled = True
+        numfil = Val(TextBox10.Text)
+        Hoja1.Cells(numfil + 2, 2) = TextBox11.Value
+        Hoja1.Cells(numfil + 2, 3) = TextBox12.Value
+        Hoja1.Cells(numfil + 2, 4) = TextBox13.Value
+        Hoja1.Cells(numfil + 2, 5) = TextBox14.Value
+        
+        TextBox10.Text = ""
+        TextBox11.Text = ""
+        TextBox12.Text = ""
+        TextBox13.Text = ""
+        TextBox14.Text = ""
+    End If
+End Sub
+
 Private Sub CommandButton2_Click()
     'boton buscar'
     'Se desactivan btnes registrar,modificar y borrar  al pulsar buscar usuario'
@@ -36,6 +77,11 @@ End Sub
 
 Private Sub CommandButton3_Click()
     'boton modificar'
+    'Se desactivan botones registrar, buscar, eliminar'
+    Frame3.Visible = True
+    CommandButton1.Enabled = False
+    CommandButton2.Enabled = False
+    CommandButton4.Enabled = False
 End Sub
 
 Private Sub CommandButton5_Click()
@@ -94,7 +140,7 @@ Private Sub CommandButton7_Click()
     Dim numfil As Integer
     'LLamamos a la funcion para obtener el numero de filas que no estan vacias'
     numfil = numfila()
-    MsgBox numfil
+    'MsgBox numfil'
     'val()-> cambia de tipo del contenido del textbox5'
     If Val(TextBox5.Text) >= 1 And Val(TextBox5.Text) <= numfil Then
         TextBox6.Text = Hoja1.Cells(Val(TextBox5.Text) + 2, 2)
@@ -133,3 +179,24 @@ Private Function numfila() As Integer
     
     numfila = i - 3
 End Function
+
+Private Sub CommandButton9_Click()
+    'Modificar datos'
+    Dim numfil As Integer
+    CommandButton11.Enabled = True
+    CommandButton9.Enabled = False
+
+    'LLamamos a la funcion para obtener el numero de filas que no estan vacias'
+    numfil = numfila()
+    'val()-> cambia de tipo del contenido del textbox5'
+    If Val(TextBox10.Text) >= 1 And Val(TextBox10.Text) <= numfil Then
+        TextBox11.Text = Hoja1.Cells(Val(TextBox10.Text) + 2, 2)
+        TextBox12.Text = Hoja1.Cells(Val(TextBox10.Text) + 2, 3)
+        TextBox13.Text = Hoja1.Cells(Val(TextBox10.Text) + 2, 4)
+        TextBox14.Text = Hoja1.Cells(Val(TextBox10.Text) + 2, 5)
+     Else
+        MsgBox "No se encuentran los datos", vbExclamation, "Error"
+        CommandButton9.Enabled = True
+        CommandButton11.Enabled = False
+    End If
+End Sub
