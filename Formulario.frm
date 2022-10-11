@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm1
    ClientHeight    =   7512
    ClientLeft      =   108
    ClientTop       =   456
-   ClientWidth     =   7344
+   ClientWidth     =   7332
    OleObjectBlob   =   "Formulario.frx":0000
    StartUpPosition =   1  'Centrar en propietario
 End
@@ -65,6 +65,73 @@ Private Sub CommandButton11_Click()
     End If
 End Sub
 
+Private Sub CommandButton12_Click()
+    Dim numfil As Integer
+    CommandButton14.Enabled = True
+    CommandButton12.Enabled = False
+
+    'LLamamos a la funcion para obtener el numero de filas que no estan vacias'
+    numfil = numfila()
+    'val()-> cambia de tipo del contenido del textbox5'
+    If Val(TextBox15.Text) >= 1 And Val(TextBox15.Text) <= numfil Then
+        TextBox16.Text = Hoja1.Cells(Val(TextBox15.Text) + 2, 2)
+        TextBox17.Text = Hoja1.Cells(Val(TextBox15.Text) + 2, 3)
+        TextBox18.Text = Hoja1.Cells(Val(TextBox15.Text) + 2, 4)
+        TextBox19.Text = Hoja1.Cells(Val(TextBox15.Text) + 2, 5)
+     Else
+        MsgBox "No se encuentran los datos", vbExclamation, "Error"
+        CommandButton12.Enabled = True
+        CommandButton14.Enabled = False
+    End If
+End Sub
+
+Private Sub CommandButton13_Click()
+    CommandButton14.Enabled = False
+    CommandButton12.Enabled = True
+    
+    Frame4.Visible = False
+    CommandButton1.Enabled = True
+    CommandButton2.Enabled = True
+    CommandButton3.Enabled = True
+    
+    TextBox15.Text = ""
+    TextBox16.Text = ""
+    TextBox17.Text = ""
+    TextBox18.Text = ""
+    TextBox19.Text = ""
+End Sub
+
+Private Sub CommandButton14_Click()
+    Dim numfil As Integer
+    Dim opcion As Integer
+    opcion = MsgBox("¿Esta seguro que quiere modificar los datos?", vbYesNo, "Modificar usuario")
+    'MsgBox opcion'
+    
+    If opcion = 6 Then
+        CommandButton14.Enabled = False
+        CommandButton12.Enabled = True
+        numfil = Val(TextBox15.Text)
+        
+        'Con esto deja vacia las filas'
+        Hoja1.Cells(numfil + 2, 2) = ""
+        Hoja1.Cells(numfil + 2, 3) = ""
+        Hoja1.Cells(numfil + 2, 4) = ""
+        Hoja1.Cells(numfil + 2, 5) = ""
+        
+        'Con esto rellena con lo de abajo'
+        Hoja1.Cells(numfil + 2, 2) = ""
+        Hoja1.Cells(numfil + 2, 3) = ""
+        Hoja1.Cells(numfil + 2, 4) = ""
+        Hoja1.Cells(numfil + 2, 5) = ""
+        
+        TextBox15.Text = ""
+        TextBox16.Text = ""
+        TextBox17.Text = ""
+        TextBox18.Text = ""
+        TextBox19.Text = ""
+    End If
+End Sub
+
 Private Sub CommandButton2_Click()
     'boton buscar'
     'Se desactivan btnes registrar,modificar y borrar  al pulsar buscar usuario'
@@ -82,6 +149,19 @@ Private Sub CommandButton3_Click()
     CommandButton1.Enabled = False
     CommandButton2.Enabled = False
     CommandButton4.Enabled = False
+End Sub
+
+Private Sub CommandButton4_Click()
+    'Eliminar usuario'
+    Frame4.Visible = True
+    CommandButton1.Enabled = False
+    CommandButton2.Enabled = False
+    CommandButton3.Enabled = False
+    
+    TextBox1.Text = ""
+    TextBox2.Text = ""
+    TextBox3.Text = ""
+    TextBox4.Text = ""
 End Sub
 
 Private Sub CommandButton5_Click()
@@ -113,18 +193,19 @@ Private Sub CommandButton6_Click()
     telefono = TextBox3.Value
     email = TextBox4.Value
     
-    'Linea para que devuelva la ultima fila'
-    fila = ActiveSheet.Cells(Rows.Count, "B").End(xlUp).Row
+    'Linea para que devuelva la ultima fila vacia'
+    'fila = ActiveSheet.Cells(Rows.Count, "B").End(xlUp).Row'
     'MsgBox fila'
     'Al id le resto -1 porque me devuelve el numero de la celda vacia y para ir sumando '
     'como id se resta -1'
-    id = fila - 1
+    fila = numfila() + 3
+    id = numfila() + 1
     'MsgBox id'
-    Hoja1.Cells(fila + 1, 1) = id
-    Hoja1.Cells(fila + 1, 2) = nombre
-    Hoja1.Cells(fila + 1, 3) = apellido
-    Hoja1.Cells(fila + 1, 4) = telefono
-    Hoja1.Cells(fila + 1, 5) = email
+    Hoja1.Cells(fila, 1) = id
+    Hoja1.Cells(fila, 2) = nombre
+    Hoja1.Cells(fila, 3) = apellido
+    Hoja1.Cells(fila, 4) = telefono
+    Hoja1.Cells(fila, 5) = email
     
     'Con esto se borra los cuadros de texto cada vez que da click'
     TextBox1.Text = ""
@@ -182,6 +263,17 @@ End Function
 
 Private Sub CommandButton9_Click()
     'Modificar datos'
+'    Label13.Visible = True
+'    Label15.Visible = True
+'    Label16.Visible = True
+'    Label17.Visible = True
+'    TextBox11.Visible = True
+'    TextBox12.Visible = True
+'    TextBox13.Visible = True
+'    TextBox14.Visible = True
+'    CommandButton11.Visible = True
+'    CommandButton10.Visible = True
+    
     Dim numfil As Integer
     CommandButton11.Enabled = True
     CommandButton9.Enabled = False
@@ -199,4 +291,16 @@ Private Sub CommandButton9_Click()
         CommandButton9.Enabled = True
         CommandButton11.Enabled = False
     End If
+End Sub
+
+Private Sub Label17_Click()
+
+End Sub
+
+Private Sub TextBox11_Change()
+
+End Sub
+
+Private Sub TextBox14_Change()
+
 End Sub
